@@ -5,11 +5,11 @@
 BlockCheck is a decentralized application (DApp) built on Starknet that empowers crypto users to make safer transactions by providing comprehensive wallet address verification and analysis before sending funds.
 
 Key Features
-✅ Wallet Analysis - View detailed transaction history and patterns
-✅ Visual Dashboard - Interactive charts and infographics
-✅ Risk Assessment - Identify suspicious activity patterns
-✅ Watchlist - Save and monitor addresses
-✅ Future Ready - On-chain tagging system (coming soon)
+-  **Wallet Analysis** – View detailed transaction history and patterns  
+-  **Visual Dashboard** – Interactive charts and infographics  
+-  **Risk Assessment** – Identify suspicious activity patterns  
+-  **Watchlist** – Save and monitor addresses  
+-  **Future Ready** – On-chain tagging system (coming soon)
 
 🚀 Quick Start
 
@@ -29,17 +29,6 @@ Starknet.js RPC
 Voyager API
 Starkscan API
 
-📁 Project Structure
-blockcheck/
-├── client/src/          # React frontend application
-│   ├── components/      # Reusable UI components
-│   ├── hooks/          # Custom React hooks
-│   ├── utils/          # Helper functions
-│   └── assets/         # Images and icons
-├── contracts/          # Cairo smart contracts
-│   ├── src/           # Contract source code
-│   └── tests/         # Contract tests
-└── public/            # Static assets
 
 
 🎨 Usage
