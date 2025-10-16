@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockCheck DEX Integration Example</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <h1 class="text-2xl font-bold text-slate-800">
+                🔍 BlockCheck
+            </h1>
+            <p class="text-sm text-slate-500 mt-1">
+                Starknet Wallet Verification DApp
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Info Card -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6 animate-fade-in">
+            <h2 class="text-lg font-semibold text-blue-900 mb-2">
+                📘 What is BlockCheck?
+            </h2>
+            <p class="text-blue-800 mb-3">
+                BlockCheck helps users verify a wallet address before sending crypto, by showing its transaction history, activity patterns, and red flags in a beginner-friendly, visual dashboard.
+            </p>
+          
+        </div>
+
+        <!-- Mock DEX Interface -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Left: DEX Swap Interface -->
+            <div class="bg-white rounded-xl shadow-lg p-6 animate-fade-in">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">
+                    Swap Tokens
+                </h3>
+                
+                <!-- From Token -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        From
+                    </label>
+                    <div class="border border-slate-300 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <input 
+                                type="number" 
+                                placeholder="0.0" 
+                                class="text-2xl font-semibold outline-none bg-transparent w-full"
+                                value="1.5"
+                            />
+                            <button class="bg-slate-100 px-3 py-1 rounded-lg font-medium">
+                                ETH
+                            </button>
+                        </div>
+                        <p class="text-sm text-slate-500">Balance: 10.5 ETH</p>
+                    </div>
+                </div>
+
+                <!-- Swap Arrow -->
+                <div class="flex justify-center my-2">
+                    <button class="bg-slate-100 p-2 rounded-lg hover:bg-slate-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- To Token -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        To
+                    </label>
+                    <div class="border border-slate-300 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <input 
+                                type="number" 
+                                placeholder="0.0" 
+                                class="text-2xl font-semibold outline-none bg-transparent w-full"
+                                value="3000.00"
+                                readonly
+                            />
+                            <button class="bg-slate-100 px-3 py-1 rounded-lg font-medium">
+                                USDC
+                            </button>
+                        </div>
+                        <p class="text-sm text-slate-500">Balance: 5,000 USDC</p>
+                    </div>
+                </div>
+
+                <!-- Recipient Address (NEW FEATURE) -->
+                <div class="mb-4 border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
+                    <label class="block text-sm font-medium text-blue-900 mb-2">
+                        🔒 Recipient Address (Optional)
+                    </label>
+                    <div class="flex gap-2">
+                        <input 
+                            type="text" 
+                            id="recipientAddress"
+                            placeholder="0x..." 
+                            class="flex-1 px-3 py-2 border border-blue-300 rounded-lg text-sm font-mono"
+                            value="0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+                        />
+                        <button 
+                            onclick="checkAddress()"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            Verify 🔍
+                        </button>
+                    </div>
+                    <p class="text-xs text-blue-700 mt-2">
+                        ✨ Use BlockCheck to verify the recipient before sending
+                    </p>
+                </div>
+
+                <!-- Swap Button -->
+                <button class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all">
+                    Swap Tokens
+                </button>
+
+                <!-- Exchange Info -->
+                <div class="mt-4 text-sm text-slate-600 space-y-1">
+                    <div class="flex justify-between">
+                        <span>Rate:</span>
+                        <span class="font-medium">1 ETH = 2,000 USDC</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Fee:</span>
+                        <span class="font-medium">0.3%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Slippage:</span>
+                        <span class="font-medium">0.5%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: BlockCheck Verification Panel -->
+            <div class="bg-white rounded-xl shadow-lg p-6 animate-fade-in">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="bg-green-100 p-2 rounded-lg">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">
+                        Address Verification
+                    </h3>
+                </div>
+
+                <!-- Verification Result -->
+                <div id="verificationResult" class="space-y-4">
+                    <!-- Default State -->
+                    <div class="text-center py-8">
+                        <div class="inline-block p-4 bg-slate-100 rounded-full mb-3">
+                            <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-slate-700 mb-2">
+                            Enter Address to Verify
+                        </h4>
+                        <p class="text-slate-500">
+                            Click "Verify" to check the recipient address safety before swapping
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Integration Benefits -->
+                <div class="mt-6 border-t border-slate-200 pt-6">
+                    <h4 class="font-semibold text-slate-800 mb-3">
+                        Why verify addresses?
+                    </h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Prevent sending to wrong addresses</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Identify known scam addresses</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Check address activity history</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600 mt-1">✓</span>
+                            <span>Make safer transactions</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Code Example -->
+        <!-- <div class="mt-8 bg-slate-900 rounded-xl shadow-lg p-6 animate-fade-in">
+            <h3 class="text-lg font-bold text-white mb-4">
+                💻 Integration Code Example
+            </h3>
+            <pre class="text-sm text-green-400 overflow-x-auto"><code>// Example: Integrate BlockCheck into your DEX
+
+import { BlockCheckWidget } from '@blockcheck/react-widget'
+
+function SwapInterface() {
+  const [recipient, setRecipient] = useState('')
+  
+  return (
+    &lt;div&gt;
+      {/* Your swap form */}
+      &lt;input 
+        value={recipient} 
+        onChange={(e) =&gt; setRecipient(e.target.value)}
+      /&gt;
+      
+      {/* BlockCheck Verification Widget */}
+      &lt;BlockCheckWidget 
+        address={recipient}
+        onVerified={(result) =&gt; {
+          if (result.riskLevel === 'high') {
+            alert('⚠️ High risk address detected!')
+          }
+        }}
+      /&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+        </div> -->
+
+        <!-- CTA Section -->
+        <!-- <div class="mt-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl shadow-lg p-8 text-center text-white animate-fade-in">
+            <h3 class="text-2xl font-bold mb-3">
+                Ready to integrate BlockCheck?
+            </h3>
+            <p class="mb-6 text-blue-100">
+                Add address verification to your DApp and protect your users from sending to wrong or malicious addresses.
+            </p>
+            <div class="flex gap-4 justify-center">
+                <a href="/" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+                    Try Full App
+                </a>
+                <a href="https://docs.blockcheck.xyz" class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    View Docs
+                </a>
+            </div>
+        </div> -->
+
+        
+
+    </main>
+
+    
+
+    <!-- Footer -->
+    <footer class="mt-16 border-t border-slate-200 bg-white py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>BlockCheck © 2025 - Created by Nipson K C</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        /**
+         * Mock address verification function
+         * In production, this would call the BlockCheck API
+         */
+        function checkAddress() {
+            const address = document.getElementById('recipientAddress').value
+            const resultDiv = document.getElementById('verificationResult')
+            
+            if (!address || address.length < 10) {
+                alert('Please enter a valid address')
+                return
+            }
+
+            // Show loading state
+            resultDiv.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-3"></div>
+                    <p class="text-slate-600">Analyzing address...</p>
+                </div>
+            `
+
+            // Simulate API call
+            setTimeout(() => {
+                // Mock verification result (in production, this comes from API)
+                const mockResult = {
+                    riskLevel: 'low',
+                    transactions: 1247,
+                    lastActivity: '2 hours ago',
+                    knownLabels: ['ETH Token Contract']
+                }
+
+                // Display result
+                resultDiv.innerHTML = `
+                    <div class="animate-fade-in">
+                        <!-- Risk Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-slate-600">Risk Level:</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                                ✓ Low Risk
+                            </span>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <p class="text-xs text-slate-500 mb-1">Transactions</p>
+                                <p class="text-lg font-bold text-slate-900">${mockResult.transactions.toLocaleString()}</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <p class="text-xs text-slate-500 mb-1">Last Activity</p>
+                                <p class="text-lg font-bold text-slate-900">${mockResult.lastActivity}</p>
+                            </div>
+                        </div>
+
+                        <!-- Known Labels -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                            <p class="text-xs font-medium text-blue-900 mb-2">Known As:</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${mockResult.knownLabels.map(label => `
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                                        ${label}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-2">
+                            <button onclick="window.open('/', '_blank')" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700">
+                                View Full Report
+                            </button>
+                            <button class="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                `
+            }, 1500)
+        }
+    </script>
+
+</body>
+</html>
